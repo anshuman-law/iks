@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKS and Legal Pedagogy: An Interactive Exploration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0f18;
+            --bg-light: #182033;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent-primary: #38bdf8; /* Sky Blue */
+            --accent-secondary: #f472b6; /* Pink */
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            /* Futuristic grid pattern */
+            background-image: linear-gradient(rgba(56, 189, 248, 0.1) 1px, transparent 1px), linear-gradient(to right, rgba(56, 189, 248, 0.1) 1px, var(--bg-dark) 1px);
+            background-size: 40px 40px;
+            background-position: -1px -1px;
+            background-attachment: fixed;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+        }
+
+        .hero-bg {
+            background-color: rgba(10, 15, 24, 0.8); /* Semi-transparent overlay */
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 0.75rem;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.2);
+        }
+
+        /* New styles for interactive glow/dim effect */
+        .interactive-grid:hover > .animated-item {
+            opacity: 0.4;
+            filter: blur(2px);
+            transform: scale(0.98);
+        }
+
+        .interactive-grid > .animated-item:hover {
+            opacity: 1;
+            filter: none;
+            transform: translateY(-5px) scale(1.05);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+        }
+
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-primary);
+            color: var(--bg-dark);
+        }
+
+        .btn-primary:hover {
+            background-color: #67cffb;
+            box-shadow: 0 0 15px var(--accent-primary);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-primary);
+            color: var(--bg-dark);
+        }
+
+        .mimamsa-tab {
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .mimamsa-tab.active {
+            color: var(--accent-secondary);
+            border-bottom-color: var(--accent-secondary);
+        }
+
+        .hidden-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .visible-content {
+            display: block;
+            opacity: 1;
+        }
+
+        .full-screen-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 1.5rem;
+            width: 100%;
+            position: relative;
+        }
+        
+        .section-bg-overlay {
+            background-color: rgba(10, 15, 24, 0.9);
+             backdrop-filter: blur(2px);
+        }
+
+        .fade-in-section .animated-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-section.is-visible .animated-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in-section.is-visible .animated-item:nth-child(1) { transition-delay: 0.1s; }
+        .fade-in-section.is-visible .animated-item:nth-child(2) { transition-delay: 0.2s; }
+        .fade-in-section.is-visible .animated-item:nth-child(3) { transition-delay: 0.3s; }
+        .fade-in-section.is-visible .animated-item:nth-child(4) { transition-delay: 0.4s; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header / Hero Section -->
+    <header class="hero-bg full-screen-section text-center">
+        <div class="fade-in-section">
+            <div class="animated-item">
+                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4 text-white">Developing Contextual Case Studies from Indian Knowledge Systems for Law Teaching</h1>
+            </div>
+            <div class="animated-item">
+                <p class="text-xl md:text-2xl text-slate-300 mb-8">Anshuman Sahoo, IIT Kharagpur</p>
+            </div>
+            <div class="animated-item mt-10">
+                <a href="#problem" class="btn btn-primary text-lg">Begin Exploration</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Section 1: The Problem -->
+        <section id="problem" class="full-screen-section section-bg-overlay">
+            <div class="fade-in-section text-center max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 animated-item">The Challenge: An Epistemology of Legal Pedagogy</h2>
+                <p class="text-lg text-slate-300 mb-12 leading-relaxed animated-item">The law classroom is more than a space for learning rules; it is an <strong class="font-semibold text-sky-300">epistemic site</strong> where the very definition of 'valid' legal knowledge is forged. Legal pedagogy is an epistemic practice that shapes how future lawyers see the world and reason within it. The critical challenge in India is the persistence of an <strong class="font-semibold text-sky-300">epistemic monoculture</strong> inherited from the colonial era. This has led to a condition of <strong class="font-semibold text-sky-300">epistemic dependency</strong>, where Anglo-European thought dominates and rich, indigenous traditions of reasoning—like Nyāya or Mīmāṁsā—are epistemically silenced. The goal, therefore, is not mere curriculum reform but a profound <strong class="font-semibold text-sky-300">epistemic reconstitution</strong>: a philosophical intervention to pluralize the very structures of legal thought.</p>
+                <div class="grid md:grid-cols-2 gap-8 interactive-grid">
+                    <div class="card p-8 text-left animated-item">
+                        <h3 class="text-2xl font-bold mb-3 text-pink-400">Epistemic Hegemony</h3>
+                        <p class="text-slate-400">This creates a single, often decontextualized, lens for understanding law, limiting our ability to interpret legal questions from diverse philosophical standpoints rooted in Indian intellectual traditions.</p>
+                    </div>
+                    <div class="card p-8 text-left animated-item" style="transition-delay: 0.3s;">
+                        <h3 class="text-2xl font-bold mb-3 text-pink-400">Beyond Content Addition</h3>
+                        <p class="text-slate-400">Introducing IKS is not about tokenism. It is a philosophical move to change the grammar of legal thinking itself, fostering a jurisprudence that is both globally aware and deeply contextual.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Solution - IKS -->
+        <section id="solution" class="full-screen-section section-bg-overlay">
+            <div class="fade-in-section max-w-5xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 animated-item">A New Lens: Indian Knowledge Systems as Legal Epistemology</h2>
+                <p class="text-lg text-slate-300 mb-12 animated-item">IKS offers a family of rich epistemic frameworks—knowledge architectures—that provide alternative logics for legal reasoning. These are not pre-modern beliefs but sophisticated traditions of reasoning that offer epistemic alterity, not nostalgia.</p>
+                <div class="grid md:grid-cols-3 gap-8 interactive-grid">
+                    <!-- Nyāya Card -->
+                    <div class="card p-6 animated-item">
+                        <div class="flex justify-center items-center mb-4 h-16">
+                           <svg class="w-12 h-12 text-sky-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-6.863 0c-.483-.174-.711-.703-.59-1.202L12 5.03M4.25 4.97A48.416 48.416 0 0112 4.5c2.291 0 4.545.16 6.75.47m-13.5 0c-1.01.143-2.01.317-3 .52m3-.52l-2.62 10.726c-.122.499.106 1.028.589 1.202a5.988 5.988 0 006.863 0c.483-.174.711-.703.59-1.202L12 5.03" /></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-pink-400">Nyāya</h3>
+                        <p class="text-slate-400">The school of logic and epistemology, offering sophisticated theories of evidence (pramāṇas) like perception, inference, and testimony.</p>
+                    </div>
+                    <!-- Mīmāṁsā Card -->
+                    <div class="card p-6 animated-item" style="transition-delay: 0.3s;">
+                        <div class="flex justify-center items-center mb-4 h-16">
+                            <svg class="w-12 h-12 text-sky-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-pink-400">Mīmāṁsā</h3>
+                        <p class="text-slate-400">The school of textual interpretation, providing rigorous rules for understanding language, intent, and context—crucial for statutory and contractual analysis.</p>
+                    </div>
+                    <!-- Dharmaśāstra Card -->
+                    <div class="card p-6 animated-item" style="transition-delay: 0.4s;">
+                        <div class="flex justify-center items-center mb-4 h-16">
+                            <svg class="w-12 h-12 text-sky-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18h16.5a1.5 1.5 0 011.5 1.5v16.5a1.5 1.5 0 01-1.5 1.5H3.75a1.5 1.5 0 01-1.5-1.5V4.5a1.5 1.5 0 011.5-1.5zM12 6.75v10.5" /></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-pink-400">Dharmaśāstra</h3>
+                        <p class="text-slate-400">A body of texts on dharma, offering a context-sensitive, teleological approach to justice, rights, and duties.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Interactive Case Study -->
+        <section id="interactive-case-study" class="full-screen-section section-bg-overlay">
+            <div class="fade-in-section max-w-4xl mx-auto">
+                <div class="text-center animated-item">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Interactive Case Study: Digital Consent</h2>
+                    <p class="text-lg text-slate-300 mb-8">Let's apply these ideas to a modern problem.</p>
+                </div>
+                
+                <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700 p-8 md:p-12 rounded-xl shadow-lg animated-item" style="transition-delay: 0.2s;">
+                    <!-- Scenario -->
+                    <div class="mb-8 border-b pb-8 border-slate-700">
+                        <h3 class="text-2xl font-bold mb-3 text-center text-pink-400">The Scenario: Kavita and the Clickwrap</h3>
+                        <p class="text-slate-300 leading-relaxed">Kavita signs up for a new social media app. To proceed, she must tick a box that says, "I have read and agree to the Terms of Service and Privacy Policy." The terms are lengthy, full of legal jargon, and accessible only via a hyperlink. She ticks the box and continues. <br><br> <strong class="text-center block text-sky-300">Did Kavita give genuine consent?</strong></p>
+                    </div>
+
+                    <!-- Analysis Options -->
+                    <div class="text-center mb-8">
+                        <p class="font-semibold mb-4">How should we analyze this?</p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button id="doctrinalBtn" class="btn btn-secondary">Analyze with Indian Contract Act</button>
+                            <button id="mimamsaBtn" class="btn btn-primary">Analyze with Mīmāṁsā</button>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Content Area -->
+                    <div id="analysis-content" class="mt-6 min-h-[200px]">
+                        <!-- Doctrinal Analysis -->
+                        <div id="doctrinal-content" class="hidden-content p-6 bg-slate-900/50 rounded-lg border border-slate-700">
+                            <h4 class="font-bold text-xl mb-2 text-sky-300">The Doctrinal Answer (Formalism)</h4>
+                            <p class="text-slate-400">From a formalist legal perspective (e.g., DPDP Act, Indian Contract Act), Kavita's consent is likely valid. The act of ticking the box is treated as a manifestation of intent to be bound by the terms, regardless of whether she actually read or understood them. The law prioritizes the objective action over the subjective state of mind.</p>
+                        </div>
+
+                        <!-- Mimamsa Analysis -->
+                        <div id="mimamsa-content" class="hidden-content">
+                            <h4 class="font-bold text-xl mb-4 text-center text-sky-300">The Mīmāṁsā Answer (Semantic Validity)</h4>
+                            <p class="text-center text-slate-400 mb-6">Mīmāṁsā argues that for a statement to be meaningful (and thus for consent to be valid), it requires three conditions for verbal understanding (Śābdabodha). Let's see if the clickwrap meets them.</p>
+                            
+                            <div class="flex justify-center border-b border-slate-700 mb-6 space-x-4 md:space-x-8">
+                                <button data-target="akanksa" class="mimamsa-tab pb-2 font-semibold active">Ākāńkṣā</button>
+                                <button data-target="yogyata" class="mimamsa-tab pb-2 font-semibold">Yogyatā</button>
+                                <button data-target="sannidhi" class="mimamsa-tab pb-2 font-semibold">Sannidhi</button>
+                            </div>
+
+                            <div class="p-4 bg-slate-900/50 rounded-lg border border-slate-700">
+                                <div id="akanksa" class="mimamsa-content-panel">
+                                    <h5 class="font-bold text-lg mb-2 text-pink-400">1. Ākāńkṣā (Expectancy)</h5>
+                                    <p class="text-slate-400">This requires semantic completeness. The phrase "I agree to the terms" is incomplete because the "terms" are a black box. The user expects clarity on what they're agreeing to, but the clickwrap doesn't provide it directly. <br><strong class="mt-2 block text-sky-400">Result: Fails. The user's expectancy horizon is not met.</strong></p>
+                                </div>
+                                <div id="yogyata" class="mimamsa-content-panel" style="display: none;">
+                                    <h5 class="font-bold text-lg mb-2 text-pink-400">2. Yogyatā (Compatibility)</h5>
+                                    <p class="text-slate-400">This requires logical and cognitive compatibility. If the terms are too technical, abstract, or lengthy for a reasonable person to comprehend, they are not compatible with the user's cognitive ability. As per Mīmāṁsā, if there is no comprehension, there can be no valid communicative act. <br><strong class="mt-2 block text-sky-400">Result: Fails. There is a cognitive mismatch.</strong></p>
+                                </div>
+                                <div id="sannidhi" class="mimamsa-content-panel" style="display: none;">
+                                    <h5 class="font-bold text-lg mb-2 text-pink-400">3. Sannidhi (Proximity)</h5>
+                                    <p class="text-slate-400">This requires proximity in time and space. Hiding the terms behind a hyperlink and across multiple screens breaks this semiotic proximity. The promise ("I agree") is disconnected from the object of the promise (the terms). <br><strong class="mt-2 block text-sky-400">Result: Fails. The consent fails as a cognitive act.</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Conclusion -->
+        <section id="conclusion" class="full-screen-section section-bg-overlay">
+            <div class="fade-in-section text-center max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 animated-item">From Legal Formalism to Indian Legal Hermeneutics</h2>
+                <p class="text-lg text-slate-300 mb-6 leading-relaxed animated-item">The Mīmāṁsā analysis reframes the entire legal question. It shifts the focus from <strong class="font-semibold text-sky-300">"Did she tick the box?"</strong> (a question of formalism) to <strong class="font-semibold text-sky-300">"Was a meaningful communicative act of consent even possible?"</strong> (a question of hermeneutics, or interpretation). This recasts consent as a performative act of understanding, not just a procedural formality.</p>
+                <p class="text-lg text-slate-300 leading-relaxed animated-item">By training students in such methodologies, we cultivate <strong class="font-semibold text-sky-300">epistemic agility</strong> and <strong class="font-semibold text-sky-300">jurisprudential bilingualism</strong>—the ability to reason across different philosophical systems. This does not mean rejecting Western legal realism, but complementing and expanding it. Combining legal archaeology with śāstric reasoning leads to a deeper, more pluralistic jurisprudence. The classroom becomes a <strong class="font-semibold text-sky-300">cognitive contact zone</strong>, a site for dialogue across rationalities, teaching students not just <strong class="font-semibold text-pink-400">what</strong> the law is, but <strong class="font-semibold text-pink-400">how to think about law</strong> itself. This is the path from epistemic dependency to epistemic confidence.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/50 text-white py-8 px-6">
+        <div class="max-w-4xl mx-auto text-center text-slate-400">
+            <p>This interactive website is an adaptation of Anshuman Sahoo's work on "Developing Contextual Case Studies from Indian Knowledge Systems for Law Teaching".</p>
+            <p class="mt-2 text-sm">Created to demonstrate the pedagogical power of integrating IKS with modern legal studies.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animation on scroll
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Interactive case study logic
+            const doctrinalBtn = document.getElementById('doctrinalBtn');
+            const mimamsaBtn = document.getElementById('mimamsaBtn');
+            const doctrinalContent = document.getElementById('doctrinal-content');
+            const mimamsaContent = document.getElementById('mimamsa-content');
+
+            const showContent = (elementToShow) => {
+                const elementsToHide = [doctrinalContent, mimamsaContent];
+                elementsToHide.forEach(el => {
+                    if (el !== elementToShow) {
+                        el.classList.remove('visible-content');
+                        el.classList.add('hidden-content');
+                    }
+                });
+                
+                setTimeout(() => {
+                    elementToShow.classList.remove('hidden-content');
+                    elementToShow.classList.add('visible-content');
+                }, 50);
+            };
+
+            doctrinalBtn.addEventListener('click', () => {
+                showContent(doctrinalContent);
+                doctrinalBtn.classList.add('btn-primary');
+                doctrinalBtn.classList.remove('btn-secondary');
+                mimamsaBtn.classList.add('btn-secondary');
+                mimamsaBtn.classList.remove('btn-primary');
+            });
+
+            mimamsaBtn.addEventListener('click', () => {
+                showContent(mimamsaContent);
+                mimamsaBtn.classList.add('btn-primary');
+                mimamsaBtn.classList.remove('btn-secondary');
+                doctrinalBtn.classList.add('btn-secondary');
+                doctrinalBtn.classList.remove('btn-primary');
+            });
+
+            // Mimamsa tabs logic
+            const tabs = document.querySelectorAll('.mimamsa-tab');
+            const tabPanels = document.querySelectorAll('.mimamsa-content-panel');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabPanels.forEach(p => p.style.display = 'none');
+                    tab.classList.add('active');
+                    const targetPanelId = tab.dataset.target;
+                    document.getElementById(targetPanelId).style.display = 'block';
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
